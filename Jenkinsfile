@@ -3,34 +3,33 @@ pipeline {
 
     environment {
         VIRTUAL_ENV = "${WORKSPACE}/venv"
-        PATH = "${env.VIRTUAL_ENV}/bin:${env.PATH}"
+        PATH = "${env.VIRTUAL_ENV}/Scripts:${env.PATH}" // en Windows
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/dmefrain02/Python_Selenium_Jenkins'
+                git branch: 'main', url: 'https://github.com/dmefrain02/Python_Selenium_Jenkins'
             }
         }
 
         stage('Setup Python Env') {
             steps {
-                sh 'python3 -m venv venv'
-                sh 'source venv/bin/activate && pip install --upgrade pip'
-                sh 'source venv/bin/activate && pip install -r requirements.txt'
+                bat 'python -m venv venv'
+                bat 'venv\\Scripts\\pip install --upgrade pip'
+                bat 'venv\\Scripts\\pip install -r requirement.txt'
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Tests and Generate Report') {
             steps {
-                sh 'source venv/bin/activate && python -m unittest discover -s tests'
+                bat 'venv\\Scripts\\python -m xmlrunner discover -s tests -o results'
             }
         }
-    }
-
-    post {
-        always {
-            junit 'test-reports/*.xml'  // si generas XML con unittest-xml-reporting
+        stage('Publish Results') {
+            steps {
+                junit 'results/TEST-*.xml'
+            }
         }
     }
 }
