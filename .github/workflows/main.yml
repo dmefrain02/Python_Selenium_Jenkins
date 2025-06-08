@@ -23,7 +23,6 @@ jobs:
       run: |
         python -m venv venv
         venv\Scripts\pip install -r requirement.txt
-        venv\Scripts\pip install --upgrade pip
 
     - name: Run tests and generate JUnit report
       run: |
