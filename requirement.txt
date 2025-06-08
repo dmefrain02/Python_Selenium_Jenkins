@@ -1,3 +1,4 @@
 selenium==4.20.0
 webdriver-manager
 unittest-xml-reporting
+pytest
