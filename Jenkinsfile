@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'file:///Users/dmefr/OneDrive/Escritorio/Python_Selenium_Jenkins/Python_Selenium_Jenkins'
+                git url: 'https://github.com/dmefrain02/Python_Selenium_Jenkins'
             }
         }
 
