@@ -1,0 +1,36 @@
+name: Python Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        venv\Scripts\pip install -r requirement.txt
+
+    - name: Run tests and generate JUnit report
+      run: |
+        mkdir results
+        venv\Scripts\pytest tests --junitxml=results\TEST-results.xml
+
+    - name: Upload test report
+      uses: actions/upload-artifact@v4
+      with:
+        name: junit-test-results
+        path: results/TEST-results.xml
