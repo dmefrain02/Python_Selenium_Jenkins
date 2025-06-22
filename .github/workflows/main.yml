@@ -46,3 +46,17 @@ jobs:
       with:
         name: allure-results
         path: allure-results
+
+    - name: Install Allure CLI
+      run: |
+        choco install allure.commandline -y
+        set PATH=%PATH%;"C:\ProgramData\chocolatey\lib\allure.commandline\tools\allure-2.24.0\bin"
+
+    - name: Generate Allure Report
+      run: allure generate allure-results -o allure-report --clean
+  
+    - name: Upload Allure Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report
+        path: allure-report
