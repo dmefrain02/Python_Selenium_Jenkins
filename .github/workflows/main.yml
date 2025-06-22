@@ -36,19 +36,21 @@ jobs:
         path: results/TEST-results.xml
 
     - name: Download Allure CLI
-      shell: pwsh
       run: |
-        Invoke-WebRequest -Uri https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.24.0/allure-commandline-2.24.0.zip -OutFile allure.zip
-        Expand-Archive -Path allure.zip -DestinationPath allure
-        echo "$PWD\\allure\\allure-commandline-2.24.0\\bin" >> $env:GITHUB_PATH
-
-    - name: Generate Allure Report
+        curl -o allure.zip https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.24.0/allure-commandline-2.24.0.zip
+        unzip allure.zip -d allure
+        echo "ALLURE_HOME=$PWD/allure/allure-commandline-2.24.0" >> $GITHUB_ENV
+        echo "$PWD/allure/allure-commandline-2.24.0/bin" >> $GITHUB_PATH
+        
+    - name: Run tests and generate Allure results
       run: |
         mkdir allure-results
-        copy results\*.xml allure-results\
-        allure generate allure-results -o allure-report --clean
+        venv\Scripts\pytest tests --alluredir=allure-results
 
-    - name: Archive Allure Report
+    - name: Generate Allure Report
+      run: allure generate allure-results -o allure-report --clean
+
+    - name: Upload Allure Report as artifact
       uses: actions/upload-artifact@v4
       with:
         name: allure-report
