@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+import xmlrunner
 
 class GoogleTest(unittest.TestCase):
     def setUp(self):
@@ -28,5 +29,5 @@ class GoogleTest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-if __name__ == "__main__":
-    unittest.main()
+if __name__ == '__main__':
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='results'))
