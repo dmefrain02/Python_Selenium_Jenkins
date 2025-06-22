@@ -34,13 +34,3 @@ jobs:
       with:
         name: junit-test-results
         path: results/TEST-results.xml
-        
-    - name: Run Tests with Allure
-      run: |
-        pytest tests --alluredir=allure-results
-
-    - name: Upload Allure Results as Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-results
-        path: allure-results
