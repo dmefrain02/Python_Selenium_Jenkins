@@ -36,9 +36,9 @@ jobs:
         path: results/TEST-results.xml
 
     - name: Run Tests with Allure
-      run: |
+      run: | 
+        venv\Scripts\activate
         mkdir allure-results
-        venv/bin/activate
         pytest tests --alluredir=allure-results
 
     - name: Upload Allure Results as Artifact
