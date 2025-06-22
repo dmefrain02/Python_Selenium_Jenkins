@@ -35,13 +35,17 @@ jobs:
         name: junit-test-results
         path: results/TEST-results.xml
 
-    - name: Download Allure CLI
+    - name: Download and configure Allure CLI
+      shell: pwsh
       run: |
-        curl -o allure.zip https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.24.0/allure-commandline-2.24.0.zip
-        unzip allure.zip -d allure
-        echo "ALLURE_HOME=$PWD/allure/allure-commandline-2.24.0" >> $GITHUB_ENV
-        echo "$PWD/allure/allure-commandline-2.24.0/bin" >> $GITHUB_PATH
-        
+          Invoke-WebRequest -Uri "https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.24.0/allure-commandline-2.24.0.zip" -OutFile "allure.zip"
+          Expand-Archive -Path "allure.zip" -DestinationPath "allure"
+          Add-Content -Path $env:GITHUB_ENV -Value "ALLURE_HOME=$PWD\\allure\\allure-commandline-2.24.0"
+          Add-Content -Path $env:GITHUB_PATH -Value "$PWD\\allure\\allure-commandline-2.24.0\\bin"
+
+    - name: Check Allure version
+      run: allure --version
+      
     - name: Run tests and generate Allure results
       run: |
         mkdir allure-results
