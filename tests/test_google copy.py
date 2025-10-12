@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import xmlrunner
 
-class GoogleTest(unittest.TestCase):
+class GoogleTest_Fallido(unittest.TestCase):
     def setUp(self):
         options = Options()
         prefs = {
