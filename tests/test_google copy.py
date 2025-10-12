@@ -22,7 +22,7 @@ class GoogleTest_Fallido(unittest.TestCase):
         self.driver = webdriver.Chrome(service=service, options=options)
 
 
-    def test_title(self):
+    def test_title_2(self):
         self.driver.get("https://www.google.com")
         self.assertIn("Google A la vista", self.driver.title)
 
